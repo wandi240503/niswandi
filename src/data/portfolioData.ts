@@ -122,8 +122,40 @@ export const PROJECTS: Project[] = [
     ]
   },
   {
-    id: "fintech-mobile-app",
+    id: "bkpm-balai-kajian-melayu",
     number: "04",
+    title: "BKPM",
+    category: "WEB DEVELOPMENT",
+    tag: "WEB // 2026",
+    badge: "LIVE PRODUCTION",
+    year: "2026",
+    description: "web ini menyimpan sejari melayu update dari blog melayu online",
+    image: "/images/bkpm.png",
+    liveUrl: "https://bkpm-melayu.com",
+    tags: ["Organization Web", "CMS", "History & Culture", "React"],
+    client: "Balai Kajian Melayu (BKPM)",
+    role: "Lead Web Developer",
+    timeline: "4 Weeks",
+    services: ["Web Development", "Content Management System", "Cultural Archive", "UI/UX"],
+    overview: "Platform digital resmi Balai Kajian Melayu untuk mendokumentasikan, memperbarui, dan merawat khazanah tamadun Melayu melalui portal berita dan blog online terpadu.",
+    challenge: "Menyediakan arsip sejarah yang rapi dengan akses cepat bagi peneliti dan masyarakat luas.",
+    research: {
+      summary: "Penyusunan arsitektur informasi untuk blog sejarah dan kajian tamadun Melayu.",
+      points: [
+        "Integrasi blog berkala update tamadun Melayu",
+        "Sistem kurasi artikel dan dokumentasi adat",
+        "Tampilan visual responsif dan berwibawa"
+      ]
+    },
+    finalDesignNotes: [
+      "Warna khas hijau emas yang merefleksikan nilai luhur tamadun Melayu",
+      "Performa loading cepat dan navigasi artikel yang mudah",
+      "Arsip digital terstruktur dan mudah dicari"
+    ]
+  },
+  {
+    id: "fintech-mobile-app",
+    number: "05",
     title: "Fintech Mobile App",
     category: "UI/UX - PRODUCT DESIGN",
     tag: "01/01 - PRODUCT DESIGN",

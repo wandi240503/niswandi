@@ -116,3 +116,4 @@ export async function clearAllHdImages(): Promise<void> {
     tx.objectStore(STORE_NAME).clear();
   } catch (_) {}
 }
+

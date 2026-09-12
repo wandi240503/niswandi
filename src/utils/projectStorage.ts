@@ -2,7 +2,7 @@ import { Project } from '../types/portfolio';
 import { PROJECTS as DEFAULT_PROJECTS } from '../data/portfolioData';
 import { saveHdImage, getCachedHdImageSync, deleteHdImage, clearAllHdImages } from './imageDb';
 
-const STORAGE_KEY = 'niswandi_custom_projects_v3';
+const STORAGE_KEY = 'niswandi_custom_projects_v4';
 const IMAGE_KEY_PREFIX = 'niswandi_img_';
 
 /**

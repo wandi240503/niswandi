@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ArrowUpRight, CheckCircle2 } from 'lucide-react';
-import { getStoredProjects } from '../utils/projectStorage';
+import { getStoredProjects, resolveImage } from '../utils/projectStorage';
+import { getHdImage } from '../utils/imageDb';
 import { PROJECTS as DEFAULT_PROJECTS } from '../data/portfolioData';
 
 export const ProjectDetailPage: React.FC = () => {
@@ -16,6 +17,18 @@ export const ProjectDetailPage: React.FC = () => {
   const projectIndex = projects.findIndex((p) => p.id === id);
   const project = projectIndex !== -1 ? projects[projectIndex] : (projects[0] || DEFAULT_PROJECTS[0]);
   const nextProject = projects.length > 0 ? projects[(projectIndex + 1) % projects.length] : DEFAULT_PROJECTS[0];
+
+  const [heroImage, setHeroImage] = useState(() => resolveImage(project.image));
+
+  useEffect(() => {
+    setHeroImage(resolveImage(project.image));
+    if (project.image.startsWith('__img__')) {
+      const pid = project.image.replace('__img__', '');
+      getHdImage(pid).then((hd) => {
+        if (hd) setHeroImage(hd);
+      });
+    }
+  }, [project.image]);
 
   return (
     <div className="pt-28 pb-20">
@@ -73,7 +86,7 @@ export const ProjectDetailPage: React.FC = () => {
         {/* Hero Image Showcase */}
         <div className="my-10 rounded-3xl overflow-hidden border border-white/10 dark:border-white/10 light:border-gray-200 bg-[#12151a] shadow-2xl relative aspect-video flex items-center justify-center">
           <img
-            src={project.image}
+            src={heroImage}
             alt={project.title}
             className="w-full h-full object-cover object-center"
           />

@@ -114,15 +114,26 @@ export const AdminPage: React.FC = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Full HD Image Processing with High-Quality Smoothing
     const reader = new FileReader();
+
+    // 1. Files <= 6MB: 100% ORIGINAL LOSSLESS QUALITY (Zero blur, zero compression)
+    // Directly store pixel-perfect original file without any canvas degradation
+    if (file.size <= 6 * 1024 * 1024) {
+      reader.onload = (event) => {
+        const originalData = event.target?.result as string;
+        setFormData((prev) => ({ ...prev, image: originalData }));
+      };
+      reader.readAsDataURL(file);
+      return;
+    }
+
+    // 2. Ultra HD processing for very large raw camera files (> 6MB)
     reader.onload = (event) => {
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        // True HD resolution (up to 1440x960) for sharp display on Retina & 4K screens
-        const MAX_WIDTH = 1440;
-        const MAX_HEIGHT = 960;
+        const MAX_WIDTH = 2560;
+        const MAX_HEIGHT = 1600;
         let width = img.width;
         let height = img.height;
 
@@ -142,16 +153,13 @@ export const AdminPage: React.FC = () => {
         canvas.height = height;
         const ctx = canvas.getContext('2d');
         if (ctx) {
-          // Enable high-quality anti-aliasing & bicubic interpolation
           ctx.imageSmoothingEnabled = true;
           ctx.imageSmoothingQuality = 'high';
           ctx.drawImage(img, 0, 0, width, height);
 
-          // WebP format at 0.88 quality delivers crystal-clear HD text and details
-          let hdData = canvas.toDataURL('image/webp', 0.88);
-          // Fallback to JPEG 0.88 if browser doesn't export WebP
+          let hdData = canvas.toDataURL('image/webp', 0.94);
           if (!hdData.startsWith('data:image/webp')) {
-            hdData = canvas.toDataURL('image/jpeg', 0.88);
+            hdData = canvas.toDataURL('image/jpeg', 0.94);
           }
           setFormData((prev) => ({ ...prev, image: hdData }));
         }
