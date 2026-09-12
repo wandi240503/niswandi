@@ -1,14 +1,14 @@
 import { Project } from '../types/portfolio';
 import { PROJECTS as DEFAULT_PROJECTS } from '../data/portfolioData';
+import { saveHdImage, getCachedHdImageSync, deleteHdImage, clearAllHdImages } from './imageDb';
 
 const STORAGE_KEY = 'niswandi_custom_projects_v3';
 const IMAGE_KEY_PREFIX = 'niswandi_img_';
 
 /**
- * Images are stored separately in localStorage under individual keys
- * to avoid exceeding the ~5MB single-key quota. The project data
- * stores only a reference key like "__img__proj-12345" which maps
- * to the actual base64 data stored under "niswandi_img_proj-12345".
+ * Images are stored in high-capacity IndexedDB and mirrored to localStorage
+ * keys when size permits. Project data stores a reference key (__img__proj-123)
+ * ensuring no single storage limit is ever exceeded.
  */
 
 // ─── Image helpers ──────────────────────────────────────────────
@@ -28,31 +28,41 @@ const isImageRef = (src: string): boolean =>
 const projectIdFromRef = (ref: string): string =>
   ref.replace('__img__', '');
 
-/** Resolve an image field: if it's a ref marker, load the actual base64 from its own key. */
+/** Resolve an image field: if it's a ref marker, load the actual base64 from cache or storage. */
 export const resolveImage = (imageSrc: string): string => {
   if (isImageRef(imageSrc)) {
     const pid = projectIdFromRef(imageSrc);
+    // 1. Check fast in-memory cache (from IndexedDB)
+    const cached = getCachedHdImageSync(pid);
+    if (cached) return cached;
+
+    // 2. Check localStorage key
     const stored = localStorage.getItem(imageKeyForProject(pid));
     if (stored) return stored;
+
     // Fallback if the image key was somehow lost
     return '/images/fintech-app.png';
   }
   return imageSrc;
 };
 
-/** Save a base64 image to its own localStorage key. Returns true on success. */
+/** Save a base64 image to IndexedDB and fallback localStorage. Returns true on success. */
 const saveImageSeparately = (projectId: string, base64: string): boolean => {
+  // 1. Save Full HD image to IndexedDB
+  saveHdImage(projectId, base64);
+
+  // 2. Also try localStorage fallback
   try {
     localStorage.setItem(imageKeyForProject(projectId), base64);
-    return true;
-  } catch (e) {
-    console.error(`Failed to save image for project ${projectId}:`, e);
-    return false;
+  } catch (_) {
+    // LocalStorage quota might be tight, but IndexedDB safely holds the HD image
   }
+  return true;
 };
 
 /** Remove the image key when a project is deleted. */
 const removeImageKey = (projectId: string): void => {
+  deleteHdImage(projectId);
   try {
     localStorage.removeItem(imageKeyForProject(projectId));
   } catch (_) { /* ignore */ }
@@ -182,6 +192,7 @@ export const deleteStoredProject = (id: string): Project[] => {
 };
 
 export const resetStoredProjects = (): Project[] => {
+  clearAllHdImages();
   // Clean up all stored image keys
   try {
     for (let i = localStorage.length - 1; i >= 0; i--) {

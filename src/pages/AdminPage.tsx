@@ -114,14 +114,15 @@ export const AdminPage: React.FC = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Compress image client-side via canvas — very aggressive to keep localStorage safe
+    // Full HD Image Processing with High-Quality Smoothing
     const reader = new FileReader();
     reader.onload = (event) => {
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        const MAX_WIDTH = 600;
-        const MAX_HEIGHT = 400;
+        // True HD resolution (up to 1440x960) for sharp display on Retina & 4K screens
+        const MAX_WIDTH = 1440;
+        const MAX_HEIGHT = 960;
         let width = img.width;
         let height = img.height;
 
@@ -141,10 +142,18 @@ export const AdminPage: React.FC = () => {
         canvas.height = height;
         const ctx = canvas.getContext('2d');
         if (ctx) {
+          // Enable high-quality anti-aliasing & bicubic interpolation
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
           ctx.drawImage(img, 0, 0, width, height);
-          // Compress to lightweight JPEG ~15-25KB
-          const compressed = canvas.toDataURL('image/jpeg', 0.55);
-          setFormData((prev) => ({ ...prev, image: compressed }));
+
+          // WebP format at 0.88 quality delivers crystal-clear HD text and details
+          let hdData = canvas.toDataURL('image/webp', 0.88);
+          // Fallback to JPEG 0.88 if browser doesn't export WebP
+          if (!hdData.startsWith('data:image/webp')) {
+            hdData = canvas.toDataURL('image/jpeg', 0.88);
+          }
+          setFormData((prev) => ({ ...prev, image: hdData }));
         }
       };
       img.src = event.target?.result as string;

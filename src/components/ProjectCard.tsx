@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, Globe } from 'lucide-react';
 import { Project } from '../types/portfolio';
+import { resolveImage } from '../utils/projectStorage';
+import { getHdImage } from '../utils/imageDb';
 
 interface ProjectCardProps {
   project: Project;
@@ -9,6 +11,18 @@ interface ProjectCardProps {
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project, layout = 'standard' }) => {
+  const [imgSrc, setImgSrc] = useState(() => resolveImage(project.image));
+
+  useEffect(() => {
+    setImgSrc(resolveImage(project.image));
+    if (project.image.startsWith('__img__')) {
+      const pid = project.image.replace('__img__', '');
+      getHdImage(pid).then((hd) => {
+        if (hd) setImgSrc(hd);
+      });
+    }
+  }, [project.image]);
+
   if (layout === 'featured') {
     return (
       <div className="group relative rounded-3xl bg-[#14171d] dark:bg-[#14171d] light:bg-white border border-white/10 dark:border-white/10 light:border-gray-200 hover:border-lime/40 transition-all duration-300 p-6 sm:p-8 lg:p-10 overflow-hidden shadow-2xl">
@@ -19,7 +33,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, layout = 'sta
           {/* Mockup Preview Area */}
           <div className="lg:col-span-7 overflow-hidden rounded-2xl border border-white/10 dark:border-white/10 light:border-gray-200 bg-[#0c0e12] relative aspect-video flex items-center justify-center group-hover:shadow-[0_0_30px_rgba(198,242,33,0.15)] transition-all">
             <img
-              src={project.image}
+              src={imgSrc}
               alt={project.title}
               className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
             />
@@ -105,7 +119,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, layout = 'sta
       {/* Mockup Preview Area */}
       <Link to={`/projects/${project.id}`} className="block w-full aspect-[16/10] rounded-xl overflow-hidden border border-white/10 dark:border-white/10 light:border-gray-200 bg-[#0c0e12] relative mb-3.5 group-hover:border-lime/30 transition-all">
         <img
-          src={project.image}
+          src={imgSrc}
           alt={project.title}
           className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
         />

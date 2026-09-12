@@ -90,8 +90,40 @@ export const PROJECTS: Project[] = [
     ]
   },
   {
-    id: "fintech-mobile-app",
+    id: "mengenal-budaya-mahakam-ulu",
     number: "03",
+    title: "Mengenal Budaya Mahakam Ulu",
+    category: "WEB DEVELOPMENT",
+    tag: "WEB // 2026",
+    badge: "LIVE PRODUCTION",
+    year: "2026",
+    description: "Web yang bergerak di kebudayaan untuk melestarikan topeng hudoq dan budaya lainnya yang ada di desa Mahakam Ulu.",
+    image: "/images/mahakam-ulu.jpg",
+    liveUrl: "https://mahakamulu.go.id",
+    tags: ["Culture Web", "Interactive Web", "React", "Tailwind CSS"],
+    client: "Pemerintah Desa Mahakam Ulu",
+    role: "Lead Frontend Developer",
+    timeline: "4 Weeks",
+    services: ["Web Development", "Cultural Archiving", "UI/UX", "SEO"],
+    overview: "Inisiatif digital untuk melestarikan dan memperkenalkan kekayaan warisan budaya Dayak di Mahakam Ulu, Kalimantan Timur kepada dunia, dengan sorotan utama pada tradisi Topeng Hudoq.",
+    challenge: "Mendokumentasikan narasi budaya yang kaya ke dalam desain modern bernuansa etnik yang interaktif.",
+    research: {
+      summary: "Dokumentasi etnografi dan kurasi visual artefak adat Mahakam Ulu.",
+      points: [
+        "Arsip digital sejarah tari dan ritual sakral topeng hudoq",
+        "Galeri interaktif foto resolusi tinggi warisan seni lokal",
+        "Aksesibilitas informasi untuk wisatawan budaya dan periset"
+      ]
+    },
+    finalDesignNotes: [
+      "Palet visual alam gelap dan aksen hijau hutan yang mistis dan menawan",
+      "Tipografi etnik modern yang megah dan berkarakter kuat",
+      "Optimalisasi kecepatan muat halaman di seluruh perangkat"
+    ]
+  },
+  {
+    id: "fintech-mobile-app",
+    number: "04",
     title: "Fintech Mobile App",
     category: "UI/UX - PRODUCT DESIGN",
     tag: "01/01 - PRODUCT DESIGN",
