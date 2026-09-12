@@ -23,7 +23,7 @@ export const AdminPage: React.FC = () => {
     badge: 'LIVE WEB',
     year: '2026',
     description: '',
-    image: '/images/ecommerce-dashboard.png',
+    image: '/images/recaffe.png',
     liveUrl: '',
     tags: ['React', 'Tailwind CSS', 'TypeScript'],
   });
@@ -74,7 +74,7 @@ export const AdminPage: React.FC = () => {
       badge: 'LIVE PRODUCTION',
       year: String(new Date().getFullYear()),
       description: '',
-      image: '/images/fintech-app.png',
+      image: '/images/recaffe.png',
       liveUrl: '',
       tags: ['React', 'Tailwind CSS'],
     });
@@ -103,7 +103,7 @@ export const AdminPage: React.FC = () => {
   };
 
   const handleResetDefaults = () => {
-    if (window.confirm('Kembalikan semua proyek ke 6 proyek bawaan awal?')) {
+    if (window.confirm('Kembalikan semua proyek ke 4 proyek utama bawaan?')) {
       const defaults = resetStoredProjects();
       setProjects(defaults);
       showToast('Daftar proyek dikembalikan ke default.');
@@ -388,7 +388,7 @@ export const AdminPage: React.FC = () => {
             className="inline-flex items-center space-x-1.5 text-xs font-mono text-gray-500 hover:text-gray-300 transition-colors"
           >
             <RefreshCw className="w-3 h-3" />
-            <span>Reset to default 6 showcase projects</span>
+            <span>Reset to default showcase projects (4 proyek asli)</span>
           </button>
         </div>
       </div>

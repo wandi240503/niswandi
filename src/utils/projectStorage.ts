@@ -2,8 +2,17 @@ import { Project } from '../types/portfolio';
 import { PROJECTS as DEFAULT_PROJECTS } from '../data/portfolioData';
 import { saveHdImage, getCachedHdImageSync, deleteHdImage, clearAllHdImages } from './imageDb';
 
-const STORAGE_KEY = 'niswandi_custom_projects_v4';
+const STORAGE_KEY = 'niswandi_custom_projects_v5';
 const IMAGE_KEY_PREFIX = 'niswandi_img_';
+
+const DUMMY_IDS = new Set([
+  'fintech-mobile-app',
+  'ecommerce-dashboard',
+  'company-profile-website',
+  'travel-mobile-app',
+  'brand-identity-guidelines',
+  'task-management-app'
+]);
 
 /**
  * Images are stored in high-capacity IndexedDB and mirrored to localStorage
@@ -125,7 +134,8 @@ export const getStoredProjects = (): Project[] => {
     }
     const parsed = JSON.parse(saved);
     if (Array.isArray(parsed)) {
-      return parsed.map(hydrateProject);
+      const cleaned = parsed.filter((p: Project) => !DUMMY_IDS.has(p.id));
+      return cleaned.map(hydrateProject);
     }
     return DEFAULT_PROJECTS;
   } catch (e) {
