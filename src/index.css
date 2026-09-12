@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #0a0b0e;
+    --card-surface: #14171D;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --text-primary: #ffffff;
+    --text-muted: #8E95A2;
+    --accent-lime: #C6F221;
+  }
+
+  html.light {
+    --bg-primary: #F8F9FA;
+    --card-surface: #FFFFFF;
+    --border-color: #E5E7EB;
+    --text-primary: #111827;
+    --text-muted: #6B7280;
+    --accent-lime: #A3E635;
+  }
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  overflow-x: hidden;
+}
+
+/* Hollow text outline for "DIGITAL" in Hero section */
+.text-outline {
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.85);
+  color: transparent;
+}
+
+html.light .text-outline {
+  -webkit-text-stroke: 2px rgba(17, 24, 39, 0.9);
+  color: transparent;
+}
+
+/* Glassmorphism Card Style */
+.glass-card {
+  background: rgba(20, 23, 29, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+html.light .glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid #E5E7EB;
+}
+
+/* Ambient glow */
+.lime-glow {
+  box-shadow: 0 0 35px -5px rgba(198, 242, 33, 0.25);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0b0e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222730;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C6F221;
+}
+
+/* Light mode overrides */
+html.light body {
+  background-color: #F8F9FA;
+  color: #111827;
+}
+
+html.light ::-webkit-scrollbar-track {
+  background: #F3F4F6;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+}
+
