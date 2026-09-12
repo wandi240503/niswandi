@@ -114,14 +114,14 @@ export const AdminPage: React.FC = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Compress image client-side via canvas to prevent localStorage quota exhaustion
+    // Compress image client-side via canvas — very aggressive to keep localStorage safe
     const reader = new FileReader();
     reader.onload = (event) => {
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        const MAX_WIDTH = 900;
-        const MAX_HEIGHT = 650;
+        const MAX_WIDTH = 600;
+        const MAX_HEIGHT = 400;
         let width = img.width;
         let height = img.height;
 
@@ -142,8 +142,8 @@ export const AdminPage: React.FC = () => {
         const ctx = canvas.getContext('2d');
         if (ctx) {
           ctx.drawImage(img, 0, 0, width, height);
-          // Compress to lightweight JPEG ~40KB
-          const compressed = canvas.toDataURL('image/jpeg', 0.82);
+          // Compress to lightweight JPEG ~15-25KB
+          const compressed = canvas.toDataURL('image/jpeg', 0.55);
           setFormData((prev) => ({ ...prev, image: compressed }));
         }
       };
@@ -187,8 +187,12 @@ export const AdminPage: React.FC = () => {
       challenge: formData.challenge || 'Designing and engineering an intuitive web platform.',
     };
 
-    const updated = addOrUpdateProject(projectToSave);
-    setProjects(updated);
+    const result = addOrUpdateProject(projectToSave);
+    if (!result.success) {
+      alert('⚠️ GAGAL MENYIMPAN!\n\nMemori browser penuh (localStorage limit 5MB).\n\nSolusi:\n1. Hapus beberapa proyek lama yang tidak dibutuhkan\n2. Gunakan link gambar URL (bukan upload file)\n3. Upload gambar dengan ukuran lebih kecil');
+      return;
+    }
+    setProjects(result.projects);
     setShowModal(false);
     showToast(editingId ? 'Proyek berhasil diperbarui!' : 'Proyek baru berhasil ditambahkan!');
   };
