@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, ArrowDown, Star, Mail } from 'lucide-react';
+import { ArrowUpRight, ArrowDown, Star, Mail, Grid3X3, LayoutGrid } from 'lucide-react';
 import { LinkedinIcon, GithubIcon } from '../components/SocialIcons';
 import { HERO_DATA, PHILOSOPHY_DATA, SERVICES, TESTIMONIALS } from '../data/portfolioData';
 import { getStoredProjects } from '../utils/projectStorage';
@@ -26,6 +26,7 @@ export const HomePage: React.FC = () => {
     };
   }, []);
 
+  const [gridCols, setGridCols] = useState<2 | 3>(3);
   const testimonial = TESTIMONIALS[0];
 
   return (
@@ -164,9 +165,34 @@ export const HomePage: React.FC = () => {
             </h2>
           </div>
           <div className="flex items-center space-x-3">
-            <span className="text-xs font-mono text-gray-400">
-              {projects.length} Proyek Ditampilkan
-            </span>
+            {/* Layout Switcher */}
+            <div className="hidden sm:flex items-center space-x-1.5 bg-[#14171d] dark:bg-[#14171d] light:bg-gray-100 p-1 rounded-full border border-white/10 dark:border-white/10 light:border-gray-200 shrink-0">
+              <button
+                onClick={() => setGridCols(3)}
+                className={`flex items-center space-x-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold transition-all ${
+                  gridCols === 3
+                    ? 'bg-lime text-black shadow-md'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                title="Tampilan Ringkas (3 Kolom)"
+              >
+                <Grid3X3 className="w-3.5 h-3.5" />
+                <span>Compact (3)</span>
+              </button>
+              <button
+                onClick={() => setGridCols(2)}
+                className={`flex items-center space-x-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold transition-all ${
+                  gridCols === 2
+                    ? 'bg-lime text-black shadow-md'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                title="Tampilan Lebar (2 Kolom)"
+              >
+                <LayoutGrid className="w-3.5 h-3.5" />
+                <span>Large (2)</span>
+              </button>
+            </div>
+
             <Link
               to="/projects"
               className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full bg-[#14171d] hover:bg-lime hover:text-black border border-white/10 text-xs font-mono uppercase tracking-wider text-gray-300 transition-all group"
@@ -177,9 +203,15 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
 
-        {/* All Projects Grid (Compact 3 Columns) - Tanpa Pembatasan */}
+        {/* All Projects Grid - Tanpa Pembatasan */}
         {projects.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+          <div
+            className={
+              gridCols === 3
+                ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6'
+                : 'grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8'
+            }
+          >
             {projects.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}
