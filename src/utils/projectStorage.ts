@@ -26,6 +26,9 @@ export const getStoredProjects = (): Project[] => {
 export const saveProjectsToStorage = (projects: Project[]): boolean => {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('niswandi_projects_updated', { detail: projects }));
+    }
     return true;
   } catch (e) {
     console.error("Error saving projects to storage (likely quota exceeded)", e);

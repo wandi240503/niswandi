@@ -11,11 +11,21 @@ export const HomePage: React.FC = () => {
   const [projects, setProjects] = useState(getStoredProjects());
 
   useEffect(() => {
-    setProjects(getStoredProjects());
+    const refreshProjects = () => {
+      setProjects(getStoredProjects());
+    };
+    refreshProjects();
+    window.addEventListener('storage', refreshProjects);
+    window.addEventListener('niswandi_projects_updated', refreshProjects);
+    window.addEventListener('focus', refreshProjects);
+
+    return () => {
+      window.removeEventListener('storage', refreshProjects);
+      window.removeEventListener('niswandi_projects_updated', refreshProjects);
+      window.removeEventListener('focus', refreshProjects);
+    };
   }, []);
 
-  const featuredProject = projects[0];
-  const gridProjects = projects.slice(1);
   const testimonial = TESTIMONIALS[0];
 
   return (
@@ -145,33 +155,40 @@ export const HomePage: React.FC = () => {
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
           <div>
-            <div className="text-xs font-mono tracking-widest text-lime uppercase mb-2">
-              01 / SELECTED WORK
+            <div className="flex items-center space-x-2 text-xs font-mono tracking-widest text-lime uppercase mb-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-lime" />
+              <span>01 / ALL PROJECTS ({String(projects.length).padStart(2, '0')})</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-black font-display tracking-tight text-white dark:text-white light:text-gray-900">
               Projects I'm proud of<span className="text-lime">.</span>
             </h2>
           </div>
-          <Link
-            to="/projects"
-            className="inline-flex items-center space-x-1.5 text-xs font-mono uppercase tracking-wider text-gray-400 hover:text-lime transition-colors group"
-          >
-            <span>View All</span>
-            <ArrowUpRight className="w-3.5 h-3.5 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </Link>
+          <div className="flex items-center space-x-3">
+            <span className="text-xs font-mono text-gray-400">
+              {projects.length} Proyek Ditampilkan
+            </span>
+            <Link
+              to="/projects"
+              className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full bg-[#14171d] hover:bg-lime hover:text-black border border-white/10 text-xs font-mono uppercase tracking-wider text-gray-300 transition-all group"
+            >
+              <span>Explore Gallery</span>
+              <ArrowUpRight className="w-3.5 h-3.5 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </Link>
+          </div>
         </div>
 
-        {/* Featured Project */}
-        <div className="mb-8">
-          <ProjectCard project={featuredProject} layout="featured" />
-        </div>
-
-        {/* Secondary Projects Grid (Compact 3 Columns) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-          {gridProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </div>
+        {/* All Projects Grid (Compact 3 Columns) - Tanpa Pembatasan */}
+        {projects.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+            {projects.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </div>
+        ) : (
+          <div className="py-12 text-center text-gray-400 font-mono text-sm border border-dashed border-white/10 rounded-2xl">
+            Belum ada proyek yang ditambahkan. Silakan tambahkan melalui panel Admin.
+          </div>
+        )}
       </section>
 
       {/* 4. PHILOSOPHY & STATS SECTION */}

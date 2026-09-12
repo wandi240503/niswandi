@@ -11,7 +11,19 @@ export const ProjectsPage: React.FC = () => {
   const [projects, setProjects] = useState(getStoredProjects());
 
   useEffect(() => {
-    setProjects(getStoredProjects());
+    const refreshProjects = () => {
+      setProjects(getStoredProjects());
+    };
+    refreshProjects();
+    window.addEventListener('storage', refreshProjects);
+    window.addEventListener('niswandi_projects_updated', refreshProjects);
+    window.addEventListener('focus', refreshProjects);
+
+    return () => {
+      window.removeEventListener('storage', refreshProjects);
+      window.removeEventListener('niswandi_projects_updated', refreshProjects);
+      window.removeEventListener('focus', refreshProjects);
+    };
   }, []);
 
   const countFormatted = String(projects.length).padStart(2, '0');
