@@ -64,8 +64,9 @@ export const AdminPage: React.FC = () => {
 
   const handleOpenAdd = () => {
     setEditingId(null);
+    const newId = 'proj-' + Date.now() + '-' + Math.random().toString(36).substring(2, 6);
     setFormData({
-      id: 'project-' + Date.now(),
+      id: newId,
       number: String(projects.length + 1).padStart(2, '0'),
       title: '',
       category: 'WEB DEVELOPMENT',
@@ -83,24 +84,29 @@ export const AdminPage: React.FC = () => {
 
   const handleOpenEdit = (project: Project) => {
     setEditingId(project.id);
-    setFormData({ ...project });
-    setTagsInput(project.tags.join(', '));
+    setFormData({
+      ...project,
+      id: project.id,
+    });
+    setTagsInput(project.tags && project.tags.length > 0 ? project.tags.join(', ') : '');
     setShowModal(true);
   };
 
   const handleDelete = (id: string) => {
-    if (window.confirm('Are you sure you want to delete this project?')) {
+    const proj = projects.find((p) => p.id === id);
+    const projTitle = proj ? `"${proj.title}"` : 'proyek ini';
+    if (window.confirm(`Yakin ingin menghapus ${projTitle}?`)) {
       const updated = deleteStoredProject(id);
       setProjects(updated);
-      showToast('Project deleted successfully.');
+      showToast(`${projTitle} berhasil dihapus.`);
     }
   };
 
   const handleResetDefaults = () => {
-    if (window.confirm('Reset all projects back to default showcase?')) {
+    if (window.confirm('Kembalikan semua proyek ke 6 proyek bawaan awal?')) {
       const defaults = resetStoredProjects();
       setProjects(defaults);
-      showToast('Projects reset to defaults.');
+      showToast('Daftar proyek dikembalikan ke default.');
     }
   };
 
@@ -108,10 +114,40 @@ export const AdminPage: React.FC = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Compress image client-side via canvas to prevent localStorage quota exhaustion
     const reader = new FileReader();
     reader.onload = (event) => {
-      const base64 = event.target?.result as string;
-      setFormData((prev) => ({ ...prev, image: base64 }));
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 900;
+        const MAX_HEIGHT = 650;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height = Math.round((height * MAX_WIDTH) / width);
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width = Math.round((width * MAX_HEIGHT) / height);
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          // Compress to lightweight JPEG ~40KB
+          const compressed = canvas.toDataURL('image/jpeg', 0.82);
+          setFormData((prev) => ({ ...prev, image: compressed }));
+        }
+      };
+      img.src = event.target?.result as string;
     };
     reader.readAsDataURL(file);
   };
@@ -119,8 +155,8 @@ export const AdminPage: React.FC = () => {
   const handleSaveProject = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.title || !formData.description) {
-      alert('Please fill out Title and Description.');
+    if (!formData.title?.trim() || !formData.description?.trim()) {
+      alert('Mohon isi Judul dan Deskripsi proyek.');
       return;
     }
 
@@ -129,22 +165,24 @@ export const AdminPage: React.FC = () => {
       .map((t) => t.trim())
       .filter((t) => t.length > 0);
 
+    const targetId = editingId || formData.id || ('proj-' + Date.now() + '-' + Math.random().toString(36).substring(2, 6));
+
     const projectToSave: Project = {
-      id: formData.id || 'project-' + Date.now(),
+      id: targetId,
       number: formData.number || String(projects.length + 1).padStart(2, '0'),
-      title: formData.title,
+      title: formData.title.trim(),
       category: formData.category || 'WEB DEVELOPMENT',
-      tag: formData.tag || 'WEB // 2026',
+      tag: formData.tag || 'WEB // ' + new Date().getFullYear(),
       badge: formData.badge || 'LIVE WEB',
-      year: formData.year || '2026',
-      description: formData.description,
+      year: formData.year || String(new Date().getFullYear()),
+      description: formData.description.trim(),
       image: formData.image || '/images/fintech-app.png',
-      liveUrl: formData.liveUrl || undefined,
-      tags: cleanedTags,
+      liveUrl: formData.liveUrl?.trim() ? formData.liveUrl.trim() : undefined,
+      tags: cleanedTags.length > 0 ? cleanedTags : ['Web Development'],
       client: formData.client || 'Client Project',
       role: formData.role || 'Designer & Developer',
       timeline: formData.timeline || '4 Weeks',
-      services: formData.services || ['Web Development', 'UI/UX'],
+      services: formData.services || ['Web Development'],
       overview: formData.overview || formData.description,
       challenge: formData.challenge || 'Designing and engineering an intuitive web platform.',
     };
@@ -152,7 +190,7 @@ export const AdminPage: React.FC = () => {
     const updated = addOrUpdateProject(projectToSave);
     setProjects(updated);
     setShowModal(false);
-    showToast(editingId ? 'Project updated successfully!' : 'New project added successfully!');
+    showToast(editingId ? 'Proyek berhasil diperbarui!' : 'Proyek baru berhasil ditambahkan!');
   };
 
   // 1. Password Protection Gate

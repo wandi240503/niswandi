@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import { getStoredProjects } from '../utils/projectStorage';
+import { PROJECTS as DEFAULT_PROJECTS } from '../data/portfolioData';
 
 export const ProjectDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const projects = getStoredProjects();
+  const [projects, setProjects] = useState(getStoredProjects());
+
+  useEffect(() => {
+    setProjects(getStoredProjects());
+  }, [id]);
 
   const projectIndex = projects.findIndex((p) => p.id === id);
-  const project = projectIndex !== -1 ? projects[projectIndex] : projects[0];
-  const nextProject = projects[(projectIndex + 1) % projects.length];
+  const project = projectIndex !== -1 ? projects[projectIndex] : (projects[0] || DEFAULT_PROJECTS[0]);
+  const nextProject = projects.length > 0 ? projects[(projectIndex + 1) % projects.length] : DEFAULT_PROJECTS[0];
 
   return (
     <div className="pt-28 pb-20">

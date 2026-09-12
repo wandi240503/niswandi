@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { WORK_STATS } from '../data/portfolioData';
@@ -7,10 +7,16 @@ import { ProjectCard } from '../components/ProjectCard';
 
 export const ProjectsPage: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState('ALL');
-  const projects = getStoredProjects();
+  const [projects, setProjects] = useState(getStoredProjects());
+
+  useEffect(() => {
+    setProjects(getStoredProjects());
+  }, []);
+
+  const countFormatted = String(projects.length).padStart(2, '0');
 
   const filterTabs = [
-    { label: 'ALL (06)', filter: 'ALL' },
+    { label: `ALL (${countFormatted})`, filter: 'ALL' },
     { label: 'UI/UX', filter: 'UI/UX' },
     { label: 'WEB', filter: 'WEB' },
     { label: 'MOBILE', filter: 'MOBILE' },

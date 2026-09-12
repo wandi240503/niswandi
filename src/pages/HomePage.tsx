@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, ArrowDown, Star, Mail } from 'lucide-react';
 import { LinkedinIcon, GithubIcon } from '../components/SocialIcons';
@@ -8,9 +8,14 @@ import { MarqueeTicker } from '../components/MarqueeTicker';
 import { ProjectCard } from '../components/ProjectCard';
 
 export const HomePage: React.FC = () => {
-  const projects = getStoredProjects();
+  const [projects, setProjects] = useState(getStoredProjects());
+
+  useEffect(() => {
+    setProjects(getStoredProjects());
+  }, []);
+
   const featuredProject = projects[0];
-  const gridProjects = projects.slice(1, 5);
+  const gridProjects = projects.slice(1);
   const testimonial = TESTIMONIALS[0];
 
   return (

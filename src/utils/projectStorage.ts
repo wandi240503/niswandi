@@ -6,22 +6,30 @@ const STORAGE_KEY = 'niswandi_custom_projects';
 export const getStoredProjects = (): Project[] => {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (!saved) {
+    if (saved === null) {
+      // First time: initialize storage with default projects
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_PROJECTS));
       return DEFAULT_PROJECTS;
     }
     const parsed = JSON.parse(saved);
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_PROJECTS;
+    if (Array.isArray(parsed)) {
+      // Even if user deleted projects or has custom count, return the actual stored list
+      return parsed;
+    }
+    return DEFAULT_PROJECTS;
   } catch (e) {
     console.error("Error reading projects from storage", e);
     return DEFAULT_PROJECTS;
   }
 };
 
-export const saveProjectsToStorage = (projects: Project[]): void => {
+export const saveProjectsToStorage = (projects: Project[]): boolean => {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+    return true;
   } catch (e) {
-    console.error("Error saving projects to storage", e);
+    console.error("Error saving projects to storage (likely quota exceeded)", e);
+    return false;
   }
 };
 
@@ -31,9 +39,14 @@ export const addOrUpdateProject = (project: Project): Project[] => {
   let updated: Project[];
 
   if (existingIndex >= 0) {
+    // Preserve any existing fields not present in update
     updated = [...current];
-    updated[existingIndex] = project;
+    updated[existingIndex] = {
+      ...current[existingIndex],
+      ...project,
+    };
   } else {
+    // New project added: place at the top of list
     updated = [project, ...current];
   }
 
@@ -49,7 +62,6 @@ export const deleteStoredProject = (id: string): Project[] => {
 };
 
 export const resetStoredProjects = (): Project[] => {
-  localStorage.removeItem(STORAGE_KEY);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_PROJECTS));
   return DEFAULT_PROJECTS;
 };
-
