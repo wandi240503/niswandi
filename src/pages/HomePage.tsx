@@ -166,8 +166,8 @@ export const HomePage: React.FC = () => {
           <ProjectCard project={featuredProject} layout="featured" />
         </div>
 
-        {/* 2x2 Secondary Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+        {/* Secondary Projects Grid (Compact 3 Columns) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {gridProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}

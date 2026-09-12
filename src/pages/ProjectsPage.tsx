@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Grid3X3, LayoutGrid } from 'lucide-react';
 import { WORK_STATS } from '../data/portfolioData';
 import { getStoredProjects } from '../utils/projectStorage';
 import { ProjectCard } from '../components/ProjectCard';
 
 export const ProjectsPage: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState('ALL');
+  const [gridCols, setGridCols] = useState<2 | 3>(3);
   const [projects, setProjects] = useState(getStoredProjects());
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export const ProjectsPage: React.FC = () => {
     <div className="pt-28 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
-        <div className="py-8 sm:py-12 border-b border-white/10 dark:border-white/10 light:border-gray-200">
+        <div className="py-8 sm:py-10 border-b border-white/10 dark:border-white/10 light:border-gray-200">
           <div className="flex items-center space-x-2 text-xs font-mono tracking-widest text-lime uppercase mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-lime" />
             <span>PORTFOLIO // WORK | ESTD. 2024 — 2026</span>
@@ -57,29 +58,65 @@ export const ProjectsPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Filter Tabs */}
-          <div className="flex flex-wrap gap-2.5 mt-10">
-            {filterTabs.map((tab) => {
-              const isActive = activeFilter === tab.filter;
-              return (
-                <button
-                  key={tab.filter}
-                  onClick={() => setActiveFilter(tab.filter)}
-                  className={`px-4 py-2 rounded-full text-xs font-mono font-bold tracking-wider transition-all duration-200 ${
-                    isActive
-                      ? 'bg-lime text-black shadow-[0_0_15px_rgba(198,242,33,0.3)] scale-105'
-                      : 'bg-[#14171d] dark:bg-[#14171d] light:bg-gray-100 text-gray-400 dark:text-gray-400 light:text-gray-600 hover:text-white light:hover:text-black border border-white/5 dark:border-white/5 light:border-gray-200'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
+          {/* Filter Tabs & Grid View Mode Switcher */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-8">
+            <div className="flex flex-wrap gap-2">
+              {filterTabs.map((tab) => {
+                const isActive = activeFilter === tab.filter;
+                return (
+                  <button
+                    key={tab.filter}
+                    onClick={() => setActiveFilter(tab.filter)}
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-mono font-bold tracking-wider transition-all duration-200 ${
+                      isActive
+                        ? 'bg-lime text-black shadow-[0_0_15px_rgba(198,242,33,0.3)] scale-105'
+                        : 'bg-[#14171d] dark:bg-[#14171d] light:bg-gray-100 text-gray-400 dark:text-gray-400 light:text-gray-600 hover:text-white light:hover:text-black border border-white/5 dark:border-white/5 light:border-gray-200'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Layout Switcher */}
+            <div className="hidden sm:flex items-center space-x-1.5 bg-[#14171d] dark:bg-[#14171d] light:bg-gray-100 p-1 rounded-full border border-white/10 dark:border-white/10 light:border-gray-200 shrink-0">
+              <button
+                onClick={() => setGridCols(3)}
+                className={`flex items-center space-x-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold transition-all ${
+                  gridCols === 3
+                    ? 'bg-lime text-black shadow-md'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                title="Tampilan Ringkas (3 Kolom)"
+              >
+                <Grid3X3 className="w-3.5 h-3.5" />
+                <span>Compact (3)</span>
+              </button>
+              <button
+                onClick={() => setGridCols(2)}
+                className={`flex items-center space-x-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold transition-all ${
+                  gridCols === 2
+                    ? 'bg-lime text-black shadow-md'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                title="Tampilan Lebar (2 Kolom)"
+              >
+                <LayoutGrid className="w-3.5 h-3.5" />
+                <span>Large (2)</span>
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* 6 Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 py-14">
+        {/* Projects Grid */}
+        <div
+          className={
+            gridCols === 3
+              ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 py-10'
+              : 'grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 py-10'
+          }
+        >
           {filteredProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}

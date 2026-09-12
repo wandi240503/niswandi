@@ -101,68 +101,68 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, layout = 'sta
   }
 
   return (
-    <div className="group relative flex flex-col rounded-2xl bg-[#14171d] dark:bg-[#14171d] light:bg-white border border-white/10 dark:border-white/10 light:border-gray-200 hover:border-lime/40 transition-all duration-300 p-5 sm:p-6 overflow-hidden shadow-xl hover:-translate-y-1">
+    <div className="group relative flex flex-col rounded-2xl bg-[#14171d] dark:bg-[#14171d] light:bg-white border border-white/10 dark:border-white/10 light:border-gray-200 hover:border-lime/40 transition-all duration-300 p-4 sm:p-5 overflow-hidden shadow-lg hover:-translate-y-1">
       {/* Mockup Preview Area */}
-      <Link to={`/projects/${project.id}`} className="block w-full aspect-[16/10] rounded-xl overflow-hidden border border-white/10 dark:border-white/10 light:border-gray-200 bg-[#0c0e12] relative mb-5">
+      <Link to={`/projects/${project.id}`} className="block w-full aspect-[16/10] rounded-xl overflow-hidden border border-white/10 dark:border-white/10 light:border-gray-200 bg-[#0c0e12] relative mb-3.5 group-hover:border-lime/30 transition-all">
         <img
           src={project.image}
           alt={project.title}
           className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
         />
         {/* Tag badge overlay */}
-        <div className="absolute bottom-3 left-3 inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-black/75 backdrop-blur-md border border-white/15 text-[10px] font-mono text-gray-200 tracking-wider">
+        <div className="absolute bottom-2.5 left-2.5 inline-flex items-center space-x-1.5 px-2 py-0.5 rounded-full bg-black/75 backdrop-blur-md border border-white/15 text-[9px] sm:text-[10px] font-mono text-gray-200 tracking-wider">
           <span className="w-1.5 h-1.5 rounded-full bg-lime" />
           <span>{project.badge}</span>
         </div>
 
         {/* Live badge if liveUrl exists */}
         {project.liveUrl && (
-          <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-lime text-black font-bold text-[10px] font-mono flex items-center space-x-1 shadow-md">
+          <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full bg-lime text-black font-bold text-[9px] font-mono flex items-center space-x-1 shadow-md">
             <span>● LIVE</span>
           </div>
         )}
       </Link>
 
       {/* Meta Row */}
-      <div className="flex items-center justify-between text-[11px] font-mono text-gray-400 mb-2">
+      <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-gray-400 mb-1.5">
         <span className="text-lime">{project.tag}</span>
         <span>{project.year}</span>
       </div>
 
       {/* Title & Arrow */}
       <div className="flex items-start justify-between gap-2 mb-2">
-        <Link to={`/projects/${project.id}`} className="text-xl sm:text-2xl font-bold text-white dark:text-white light:text-gray-900 font-display tracking-tight group-hover:text-lime transition-colors">
+        <Link to={`/projects/${project.id}`} className="text-base sm:text-lg font-bold text-white dark:text-white light:text-gray-900 font-display tracking-tight group-hover:text-lime transition-colors line-clamp-1">
           {project.title}
         </Link>
-        <div className="flex items-center space-x-1">
+        <div className="flex items-center space-x-1 shrink-0">
           {project.liveUrl ? (
             <a
               href={project.liveUrl}
               target="_blank"
               rel="noreferrer"
               title="Open Live Website"
-              className="w-8 h-8 rounded-full border border-lime/30 bg-lime/10 flex items-center justify-center text-lime hover:bg-lime hover:text-black transition-all shrink-0"
+              className="w-7 h-7 rounded-full border border-lime/30 bg-lime/10 flex items-center justify-center text-lime hover:bg-lime hover:text-black transition-all shrink-0"
             >
-              <Globe className="w-4 h-4" />
+              <Globe className="w-3.5 h-3.5" />
             </a>
           ) : (
             <Link
               to={`/projects/${project.id}`}
-              className="w-8 h-8 rounded-full border border-white/10 dark:border-white/10 light:border-gray-300 bg-white/5 dark:bg-white/5 light:bg-gray-100 flex items-center justify-center text-gray-400 group-hover:text-lime group-hover:border-lime/40 group-hover:bg-lime/10 transition-all shrink-0"
+              className="w-7 h-7 rounded-full border border-white/10 dark:border-white/10 light:border-gray-300 bg-white/5 dark:bg-white/5 light:bg-gray-100 flex items-center justify-center text-gray-400 group-hover:text-lime group-hover:border-lime/40 group-hover:bg-lime/10 transition-all shrink-0"
             >
-              <ArrowUpRight className="w-4 h-4 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <ArrowUpRight className="w-3.5 h-3.5 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </Link>
           )}
         </div>
       </div>
 
       {/* Description */}
-      <p className="text-xs sm:text-sm text-gray-400 dark:text-gray-400 light:text-gray-600 line-clamp-2 leading-relaxed mt-auto mb-4">
+      <p className="text-xs text-gray-400 dark:text-gray-400 light:text-gray-600 line-clamp-2 leading-relaxed mt-auto mb-3">
         {project.description}
       </p>
 
       {/* Action Footer */}
-      <div className="flex items-center justify-between pt-3 border-t border-white/5 dark:border-white/5 light:border-gray-100 text-xs">
+      <div className="flex items-center justify-between pt-2.5 border-t border-white/5 dark:border-white/5 light:border-gray-100 text-[11px] sm:text-xs">
         <Link to={`/projects/${project.id}`} className="font-mono text-gray-400 hover:text-lime transition-colors">
           Case Study →
         </Link>
