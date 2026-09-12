@@ -25,8 +25,73 @@ export const MARQUEE_ITEMS = [
 
 export const PROJECTS: Project[] = [
   {
-    id: "fintech-mobile-app",
+    id: "recaffe-rekomendasi-cafe",
     number: "01",
+    title: "Recaffe- rekomendasi caffe",
+    category: "WEB PLATFORM",
+    tag: "WEB // 2026",
+    badge: "LIVE PRODUCTION",
+    year: "2026",
+    description: "Sebuah web yang berfungsi sebagai wadah rekomendasi yang teransparan untuk mempromosikan cafe yang ada di sekitar anda.",
+    image: "/images/recaffe.png",
+    featured: true,
+    liveUrl: "https://caferekomendasi.com",
+    tags: ["Web Platform", "React", "Next.js", "Tailwind CSS"],
+    client: "Recaffe Network",
+    role: "Fullstack Architect & UI/UX",
+    timeline: "6 Weeks",
+    services: ["Web Development", "UI/UX Design", "Search Algorithm", "Responsive Design"],
+    overview: "Platform rekomendasi cafe modern berbasis web yang membantu para pecinta kopi menemukan tempat terbaik berdasarkan preferensi dan lokasi.",
+    challenge: "Menyajikan algoritma rekomendasi transparan dengan visual yang cepat dan interaktif.",
+    research: {
+      summary: "Riset preferensi pengunjung cafe dan sistem kurasi rekomendasi terverifikasi.",
+      points: [
+        "Filter pencarian berdasarkan fasilitas, wifi, dan suasana",
+        "Sistem kurasi rekomendasi transparan tanpa bias",
+        "Tampilan visual responsif untuk pengguna mobile"
+      ]
+    },
+    finalDesignNotes: [
+      "Desain gelap dengan aksen hijau neon yang modern dan estetik",
+      "Performa loading cepat dan optimasi SEO lokal",
+      "Integrasi visual interaktif dengan katalog cafe terlengkap"
+    ]
+  },
+  {
+    id: "ismi-ikatan-sarjana-melayu",
+    number: "02",
+    title: "ISMI-Ikatan Sarjana Melayu Yogyakarta",
+    category: "WEB DEVELOPMENT",
+    tag: "WEB // 2026",
+    badge: "LIVE PRODUCTION",
+    year: "2026",
+    description: "sebuah web organisasi untuk mengelola data, berita, mahasiswa melayu Yogyakarta. ISMY (Ikatan Sarjana Melayu Yogyakarta)",
+    image: "/images/ismi.png",
+    liveUrl: "https://ismy.org",
+    tags: ["Organization Web", "CMS", "Database", "React"],
+    client: "ISMI Yogyakarta",
+    role: "Lead Developer & UI Designer",
+    timeline: "5 Weeks",
+    services: ["Organization Web", "CMS Portal", "Database Mahasiswa", "Portal Berita"],
+    overview: "Portal web resmi untuk Ikatan Sarjana Melayu Yogyakarta guna menyatukan cendekiawan melayu, mempublikasikan berita organisasi, dan mengelola direktori mahasiswa.",
+    challenge: "Membangun sistem informasi yang terintegrasi, mudah dikelola oleh pengurus, dan ramah pengguna.",
+    research: {
+      summary: "Pemetaan kebutuhan komunikasi dan data anggota organisasi Melayu di Yogyakarta.",
+      points: [
+        "Sistem pendaftaran dan pendataan anggota online",
+        "Portal publikasi berita dan agenda kegiatan terupdate",
+        "Tampilan profesional yang mencerminkan nilai intelektual Melayu"
+      ]
+    },
+    finalDesignNotes: [
+      "Navigasi bersih dengan tipografi yang elegan dan terbaca jelas",
+      "Struktur data teroptimasi untuk arsip berita dan dokumentasi kegiatan",
+      "Desain adaptif yang sempurna di ponsel cerdas maupun laptop"
+    ]
+  },
+  {
+    id: "fintech-mobile-app",
+    number: "03",
     title: "Fintech Mobile App",
     category: "UI/UX - PRODUCT DESIGN",
     tag: "01/01 - PRODUCT DESIGN",

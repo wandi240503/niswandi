@@ -1,7 +1,7 @@
 import { Project } from '../types/portfolio';
 import { PROJECTS as DEFAULT_PROJECTS } from '../data/portfolioData';
 
-const STORAGE_KEY = 'niswandi_custom_projects';
+const STORAGE_KEY = 'niswandi_custom_projects_v3';
 const IMAGE_KEY_PREFIX = 'niswandi_img_';
 
 /**
@@ -90,7 +90,26 @@ export const getStoredProjects = (): Project[] => {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved === null) {
-      // First time: initialize storage with default projects
+      // First time on v3: check if old key has custom projects
+      const oldSaved = localStorage.getItem('niswandi_custom_projects');
+      if (oldSaved) {
+        try {
+          const oldParsed = JSON.parse(oldSaved);
+          if (Array.isArray(oldParsed) && oldParsed.length > 0) {
+            const customItems = oldParsed.filter((p: Project) =>
+              p.id.startsWith('proj-') || p.id.includes('recaffe') || p.id.includes('ismi')
+            );
+            if (customItems.length > 0) {
+              const combined = [
+                ...customItems,
+                ...DEFAULT_PROJECTS.filter((d) => !customItems.some((c: Project) => c.id === d.id))
+              ];
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(combined));
+              return combined.map(hydrateProject);
+            }
+          }
+        } catch (_) {}
+      }
       localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_PROJECTS));
       return DEFAULT_PROJECTS;
     }

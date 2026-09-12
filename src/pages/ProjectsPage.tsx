@@ -91,28 +91,28 @@ export const ProjectsPage: React.FC = () => {
               })}
             </div>
 
-            {/* Layout Switcher */}
-            <div className="hidden sm:flex items-center space-x-1.5 bg-[#14171d] dark:bg-[#14171d] light:bg-gray-100 p-1 rounded-full border border-white/10 dark:border-white/10 light:border-gray-200 shrink-0">
+            {/* Layout Switcher (Visible on both Mobile HP and Desktop) */}
+            <div className="flex items-center space-x-1 bg-[#14171d] dark:bg-[#14171d] light:bg-gray-100 p-1 rounded-full border border-white/10 dark:border-white/10 light:border-gray-200 shrink-0">
               <button
                 onClick={() => setGridCols(3)}
-                className={`flex items-center space-x-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold transition-all ${
+                className={`flex items-center space-x-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-bold transition-all ${
                   gridCols === 3
                     ? 'bg-lime text-black shadow-md'
                     : 'text-gray-400 hover:text-white'
                 }`}
-                title="Tampilan Ringkas (3 Kolom)"
+                title="Tampilan Ringkas"
               >
                 <Grid3X3 className="w-3.5 h-3.5" />
                 <span>Compact (3)</span>
               </button>
               <button
                 onClick={() => setGridCols(2)}
-                className={`flex items-center space-x-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold transition-all ${
+                className={`flex items-center space-x-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-bold transition-all ${
                   gridCols === 2
                     ? 'bg-lime text-black shadow-md'
                     : 'text-gray-400 hover:text-white'
                 }`}
-                title="Tampilan Lebar (2 Kolom)"
+                title="Tampilan Lebar"
               >
                 <LayoutGrid className="w-3.5 h-3.5" />
                 <span>Large (2)</span>
@@ -125,8 +125,8 @@ export const ProjectsPage: React.FC = () => {
         <div
           className={
             gridCols === 3
-              ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 py-10'
-              : 'grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 py-10'
+              ? 'grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 py-10'
+              : 'grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8 py-10'
           }
         >
           {filteredProjects.map((project) => (

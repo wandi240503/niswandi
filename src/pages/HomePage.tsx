@@ -164,29 +164,29 @@ export const HomePage: React.FC = () => {
               Projects I'm proud of<span className="text-lime">.</span>
             </h2>
           </div>
-          <div className="flex items-center space-x-3">
-            {/* Layout Switcher */}
-            <div className="hidden sm:flex items-center space-x-1.5 bg-[#14171d] dark:bg-[#14171d] light:bg-gray-100 p-1 rounded-full border border-white/10 dark:border-white/10 light:border-gray-200 shrink-0">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            {/* Layout Switcher (Visible on both Mobile HP and Desktop) */}
+            <div className="flex items-center space-x-1 bg-[#14171d] dark:bg-[#14171d] light:bg-gray-100 p-1 rounded-full border border-white/10 dark:border-white/10 light:border-gray-200 shrink-0">
               <button
                 onClick={() => setGridCols(3)}
-                className={`flex items-center space-x-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold transition-all ${
+                className={`flex items-center space-x-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-bold transition-all ${
                   gridCols === 3
                     ? 'bg-lime text-black shadow-md'
                     : 'text-gray-400 hover:text-white'
                 }`}
-                title="Tampilan Ringkas (3 Kolom)"
+                title="Tampilan Ringkas"
               >
                 <Grid3X3 className="w-3.5 h-3.5" />
                 <span>Compact (3)</span>
               </button>
               <button
                 onClick={() => setGridCols(2)}
-                className={`flex items-center space-x-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold transition-all ${
+                className={`flex items-center space-x-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-bold transition-all ${
                   gridCols === 2
                     ? 'bg-lime text-black shadow-md'
                     : 'text-gray-400 hover:text-white'
                 }`}
-                title="Tampilan Lebar (2 Kolom)"
+                title="Tampilan Lebar"
               >
                 <LayoutGrid className="w-3.5 h-3.5" />
                 <span>Large (2)</span>
@@ -195,7 +195,7 @@ export const HomePage: React.FC = () => {
 
             <Link
               to="/projects"
-              className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full bg-[#14171d] hover:bg-lime hover:text-black border border-white/10 text-xs font-mono uppercase tracking-wider text-gray-300 transition-all group"
+              className="inline-flex items-center space-x-1.5 px-3 sm:px-3.5 py-1.5 rounded-full bg-[#14171d] hover:bg-lime hover:text-black border border-white/10 text-[11px] sm:text-xs font-mono uppercase tracking-wider text-gray-300 transition-all group"
             >
               <span>Explore Gallery</span>
               <ArrowUpRight className="w-3.5 h-3.5 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -208,8 +208,8 @@ export const HomePage: React.FC = () => {
           <div
             className={
               gridCols === 3
-                ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6'
-                : 'grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8'
+                ? 'grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6'
+                : 'grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8'
             }
           >
             {projects.map((project) => (
