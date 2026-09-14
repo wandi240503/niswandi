@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowUpRight, Menu, X, Sun, Moon, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Menu, X, Sun, Moon, Sparkles, FileText } from 'lucide-react';
 
 interface NavbarProps {
   onOpenMobileMenu?: () => void;
@@ -51,9 +51,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMobileMenu }) => {
     { name: 'Home', path: '/' },
     { name: 'Projects', path: '/projects' },
     { name: 'About', path: '/about' },
+    { name: 'CV', path: '/cv' },
     { name: 'Services', path: '/services' },
     { name: 'Experience', path: '/experience' },
-    { name: 'CV', path: '/cv' },
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -97,16 +97,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMobileMenu }) => {
         </nav>
 
         {/* Right Actions */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-2.5 sm:space-x-3">
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
             aria-label="Toggle Theme"
-            className="w-10 h-10 rounded-full border border-white/10 dark:border-white/10 light:border-gray-300 bg-white/5 dark:bg-white/5 light:bg-gray-100 flex items-center justify-center text-gray-300 dark:text-gray-300 light:text-gray-700 hover:text-lime hover:border-lime/40 transition-all duration-200"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/10 dark:border-white/10 light:border-gray-300 bg-white/5 dark:bg-white/5 light:bg-gray-100 flex items-center justify-center text-gray-300 dark:text-gray-300 light:text-gray-700 hover:text-lime hover:border-lime/40 transition-all duration-200"
             title={isLightMode ? "Switch to Dark Mode" : "Switch to Light Mode"}
           >
             {isLightMode ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
           </button>
+
+          {/* CV Button */}
+          <Link
+            to="/cv"
+            className="inline-flex items-center space-x-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full border border-lime/40 bg-lime/10 text-lime hover:bg-lime hover:text-black font-semibold text-xs sm:text-sm transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 shadow-[0_0_15px_rgba(198,242,33,0.15)]"
+            title="Lihat Curriculum Vitae (CV)"
+          >
+            <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <span>CV</span>
+          </Link>
 
           {/* Let's Talk CTA Button */}
           <Link

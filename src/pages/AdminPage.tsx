@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Lock, Plus, Trash2, Edit3, Globe, ArrowUpRight, Check, X, LogOut, RefreshCw, Upload, Image as ImageIcon } from 'lucide-react';
+import { Lock, Plus, Trash2, Edit3, Globe, ArrowUpRight, Check, X, LogOut, RefreshCw, Upload, Image as ImageIcon, FileText } from 'lucide-react';
 import { Project } from '../types/portfolio';
 import { getStoredProjects, addOrUpdateProject, deleteStoredProject, resetStoredProjects } from '../utils/projectStorage';
+import { saveCvDocument, getCvDocument, deleteCvDocument } from '../utils/imageDb';
 
 export const AdminPage: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -10,6 +11,7 @@ export const AdminPage: React.FC = () => {
   const [authError, setAuthError] = useState(false);
 
   const [projects, setProjects] = useState<Project[]>([]);
+  const [cvDoc, setCvDoc] = useState<{ fileName: string; dataUrl: string } | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -36,6 +38,7 @@ export const AdminPage: React.FC = () => {
     if (sessionAuth === 'true') {
       setIsAuthenticated(true);
       setProjects(getStoredProjects());
+      getCvDocument().then(setCvDoc);
     }
   }, []);
 
@@ -46,6 +49,7 @@ export const AdminPage: React.FC = () => {
       setIsAuthenticated(true);
       sessionStorage.setItem('niswandi_admin_auth', 'true');
       setProjects(getStoredProjects());
+      getCvDocument().then(setCvDoc);
       setAuthError(false);
     } else {
       setAuthError(true);
@@ -107,6 +111,37 @@ export const AdminPage: React.FC = () => {
       const defaults = resetStoredProjects();
       setProjects(defaults);
       showToast('Daftar proyek dikembalikan ke default.');
+    }
+  };
+
+  const handleCvUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 15 * 1024 * 1024) {
+      alert('Ukuran file PDF maksimal 15MB.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const dataUrl = reader.result as string;
+      const ok = await saveCvDocument(file.name, dataUrl);
+      if (ok) {
+        setCvDoc({ fileName: file.name, dataUrl });
+        showToast(`File CV "${file.name}" berhasil diunggah!`);
+      } else {
+        alert('Gagal menyimpan file CV.');
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleCvDelete = async () => {
+    if (window.confirm('Hapus file CV PDF ini?')) {
+      await deleteCvDocument();
+      setCvDoc(null);
+      showToast('File CV berhasil dihapus.');
     }
   };
 
@@ -379,6 +414,74 @@ export const AdminPage: React.FC = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* CV File Management Card */}
+        <div className="p-6 sm:p-8 rounded-3xl bg-[#14171d] border border-white/10 shadow-xl space-y-4 mt-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <div className="flex items-center space-x-2 text-xs font-mono text-lime font-bold uppercase tracking-wider mb-1">
+                <FileText className="w-3.5 h-3.5" />
+                <span>Manajemen File Dokumen CV (PDF)</span>
+              </div>
+              <h3 className="text-lg font-bold text-white font-display">
+                Upload & Perbarui File CV Anda
+              </h3>
+              <p className="text-xs text-gray-400">
+                File PDF yang Anda upload di sini akan langsung bisa dilihat dan diunduh oleh pengunjung web di menu CV.
+              </p>
+            </div>
+
+            <div className="flex items-center space-x-3 shrink-0">
+              <input
+                id="admin-cv-upload"
+                type="file"
+                accept=".pdf,application/pdf"
+                className="hidden"
+                onChange={handleCvUpload}
+              />
+              <label
+                htmlFor="admin-cv-upload"
+                className="inline-flex items-center space-x-2 px-4 py-2.5 rounded-full bg-lime text-black font-bold text-xs hover:bg-lime-hover cursor-pointer transition-all shadow-[0_0_15px_rgba(198,242,33,0.25)]"
+              >
+                <Upload className="w-3.5 h-3.5" />
+                <span>{cvDoc ? 'Ganti File PDF' : 'Upload File PDF CV'}</span>
+              </label>
+
+              {cvDoc && (
+                <button
+                  onClick={handleCvDelete}
+                  className="p-2.5 rounded-full bg-white/5 border border-white/10 text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors"
+                  title="Hapus file PDF CV"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              )}
+
+              <a
+                href="/cv"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center space-x-1.5 px-4 py-2.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-gray-300 hover:text-lime transition-colors"
+              >
+                <span>Lihat CV</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </div>
+
+          {cvDoc ? (
+            <div className="p-3.5 rounded-2xl bg-lime/10 border border-lime/30 flex items-center justify-between text-xs font-mono">
+              <span className="text-lime font-semibold truncate">
+                ✓ File aktif: <strong className="underline">{cvDoc.fileName}</strong>
+              </span>
+              <span className="text-gray-400 shrink-0">Siap diunduh pengunjung</span>
+            </div>
+          ) : (
+            <div className="p-3.5 rounded-2xl bg-white/5 border border-white/5 text-xs font-mono text-gray-400">
+              Belum ada file PDF yang diunggah. Halaman CV saat ini menggunakan template digital interaktif dan fitur print langsung ke PDF.
+            </div>
+          )}
         </div>
 
         {/* Reset Button Footer */}

@@ -117,3 +117,83 @@ export async function clearAllHdImages(): Promise<void> {
   } catch (_) {}
 }
 
+export async function saveCvDocument(fileName: string, dataUrl: string): Promise<boolean> {
+  const db = await openDatabase();
+  if (!db) return false;
+
+  return new Promise((resolve) => {
+    try {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+      store.put(dataUrl, 'niswandi_cv_file_blob');
+      store.put(fileName, 'niswandi_cv_file_name');
+      tx.oncomplete = () => {
+        try {
+          localStorage.setItem('niswandi_has_cv_file', 'true');
+          localStorage.setItem('niswandi_cv_file_name', fileName);
+        } catch (_) {}
+        resolve(true);
+      };
+      tx.onerror = () => resolve(false);
+    } catch (e) {
+      resolve(false);
+    }
+  });
+}
+
+export async function getCvDocument(): Promise<{ fileName: string; dataUrl: string } | null> {
+  const db = await openDatabase();
+  if (!db) return null;
+
+  return new Promise((resolve) => {
+    try {
+      const tx = db.transaction(STORE_NAME, 'readonly');
+      const store = tx.objectStore(STORE_NAME);
+      const reqBlob = store.get('niswandi_cv_file_blob');
+      reqBlob.onsuccess = () => {
+        const dataUrl = reqBlob.result;
+        if (!dataUrl) {
+          resolve(null);
+          return;
+        }
+        const reqName = store.get('niswandi_cv_file_name');
+        reqName.onsuccess = () => {
+          resolve({
+            fileName: reqName.result || 'CV_Muhammad_Niswandi.pdf',
+            dataUrl
+          });
+        };
+        reqName.onerror = () => resolve({ fileName: 'CV_Muhammad_Niswandi.pdf', dataUrl });
+      };
+      reqBlob.onerror = () => resolve(null);
+    } catch (e) {
+      resolve(null);
+    }
+  });
+}
+
+export async function deleteCvDocument(): Promise<boolean> {
+  const db = await openDatabase();
+  if (!db) return false;
+
+  return new Promise((resolve) => {
+    try {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+      store.delete('niswandi_cv_file_blob');
+      store.delete('niswandi_cv_file_name');
+      tx.oncomplete = () => {
+        try {
+          localStorage.removeItem('niswandi_has_cv_file');
+          localStorage.removeItem('niswandi_cv_file_name');
+        } catch (_) {}
+        resolve(true);
+      };
+      tx.onerror = () => resolve(false);
+    } catch (e) {
+      resolve(false);
+    }
+  });
+}
+
+

@@ -17,9 +17,9 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
     { number: '01', name: 'Home', path: '/' },
     { number: '02', name: 'Projects', path: '/projects' },
     { number: '03', name: 'About', path: '/about' },
-    { number: '04', name: 'Services', path: '/services' },
-    { number: '05', name: 'Experience', path: '/experience' },
-    { number: '06', name: 'CV / Resume', path: '/cv' },
+    { number: '04', name: 'CV / Resume', path: '/cv' },
+    { number: '05', name: 'Services', path: '/services' },
+    { number: '06', name: 'Experience', path: '/experience' },
     { number: '07', name: 'Contact', path: '/contact' },
   ];
 
