@@ -57,14 +57,21 @@ FOCUS:
               ))}
             </div>
 
-            <div className="pt-2">
-              <button
-                onClick={handleDownloadResume}
+            <div className="pt-2 flex flex-wrap gap-3">
+              <Link
+                to="/cv"
+                className="inline-flex items-center space-x-2 px-6 py-3 rounded-full bg-lime text-black font-bold text-sm hover:bg-lime-hover shadow-[0_0_20px_rgba(198,242,33,0.3)] transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+              >
+                <span>Lihat CV Lengkap</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </Link>
+              <Link
+                to="/cv"
                 className="inline-flex items-center space-x-2 px-6 py-3 rounded-full bg-white/5 dark:bg-white/5 light:bg-gray-100 border border-white/10 dark:border-white/10 light:border-gray-300 text-white dark:text-white light:text-gray-900 font-semibold text-sm hover:border-lime/40 hover:text-lime transition-all group"
               >
-                <span>Download Resume</span>
+                <span>Print / Simpan PDF</span>
                 <Download className="w-4 h-4 text-gray-400 group-hover:text-lime transition-colors" />
-              </button>
+              </Link>
             </div>
 
             {/* Quick Details Table */}

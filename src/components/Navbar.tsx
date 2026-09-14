@@ -53,6 +53,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenMobileMenu }) => {
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services' },
     { name: 'Experience', path: '/experience' },
+    { name: 'CV', path: '/cv' },
     { name: 'Contact', path: '/contact' },
   ];
 

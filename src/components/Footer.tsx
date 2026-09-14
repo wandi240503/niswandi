@@ -48,6 +48,11 @@ export const Footer: React.FC = () => {
                   About
                 </Link>
               </li>
+              <li>
+                <Link to="/cv" className="text-sm text-lime hover:underline transition-colors font-medium">
+                  Curriculum Vitae (CV)
+                </Link>
+              </li>
             </ul>
           </div>
 

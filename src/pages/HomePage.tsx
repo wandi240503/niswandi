@@ -78,6 +78,13 @@ export const HomePage: React.FC = () => {
                 <ArrowUpRight className="w-4 h-4" />
               </Link>
               <Link
+                to="/cv"
+                className="inline-flex items-center space-x-2 px-6 py-3.5 rounded-full bg-white/5 text-lime font-bold text-sm sm:text-base border border-lime/30 hover:border-lime hover:bg-lime/10 transition-all transform hover:-translate-y-0.5"
+              >
+                <span>Curriculum Vitae (CV)</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </Link>
+              <Link
                 to="/about"
                 className="inline-flex items-center space-x-2 px-6 py-3.5 rounded-full bg-[#14171d] dark:bg-[#14171d] light:bg-white text-white dark:text-white light:text-gray-900 font-semibold text-sm sm:text-base border border-white/10 dark:border-white/10 light:border-gray-300 hover:border-lime/50 transition-all transform hover:-translate-y-0.5"
               >
@@ -242,12 +249,19 @@ export const HomePage: React.FC = () => {
               <p className="text-sm sm:text-base text-gray-400 dark:text-gray-400 light:text-gray-600 leading-relaxed">
                 "{PHILOSOPHY_DATA.quote}"
               </p>
-              <div>
+              <div className="flex flex-wrap items-center gap-4">
                 <Link
                   to="/about"
                   className="inline-flex items-center space-x-2 text-sm font-bold text-white dark:text-white light:text-gray-900 hover:text-lime transition-colors group"
                 >
                   <span>More About Me</span>
+                  <ArrowUpRight className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                </Link>
+                <Link
+                  to="/cv"
+                  className="inline-flex items-center space-x-2 text-sm font-bold text-lime hover:underline transition-colors group"
+                >
+                  <span>Curriculum Vitae (CV)</span>
                   <ArrowUpRight className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </Link>
               </div>

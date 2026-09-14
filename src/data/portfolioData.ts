@@ -323,3 +323,156 @@ export const SOCIAL_LINKS = [
   { name: "Email", url: "mailto:muhniswandii@gmail.com", handle: "muhniswandii@gmail.com" }
 ];
 
+export const CV_DATA = {
+  fullName: "MUHAMMAD NISWANDI",
+  title: "Full-Stack Web Developer & UI/UX Designer",
+  tagline: "Bridging human-centric digital interfaces with robust, scalable web architecture.",
+  email: "muhniswandii@gmail.com",
+  linkedin: "https://www.linkedin.com/in/niswandii/",
+  linkedinHandle: "linkedin.com/in/niswandii",
+  github: "https://github.com/wandi240503",
+  githubHandle: "github.com/wandi240503",
+  website: "https://niswandi.vercel.app",
+  websiteHandle: "niswandi.vercel.app",
+  location: "Yogyakarta / Indonesia",
+  photo: "/images/niswandi-portrait.png",
+  summary:
+    "Full-Stack Web Developer & UI/UX Designer dengan spesialisasi dalam perancangan produk digital modern, sistem antarmuka interaktif, dan arsitektur aplikasi web berkinerja tinggi. Berpengalaman dalam menerjemahkan kebutuhan pengguna dan bisnis ke dalam prototipe intuitif (Figma) hingga implementasi kode siap produksi (React, Next.js, TypeScript, Tailwind CSS, REST API). Berkomitmen kuat pada standar clean code, web accessibility, responsivitas multi-perangkat, dan pengalaman visual yang elegan.",
+  skills: {
+    frontend: [
+      "React.js",
+      "Next.js",
+      "TypeScript",
+      "JavaScript (ES6+)",
+      "Tailwind CSS",
+      "HTML5 / Semantic Web",
+      "CSS3 / Modern Layouts",
+      "Vite",
+      "Component Architecture",
+      "Responsive Web Design",
+      "Web Performance & SEO"
+    ],
+    backend: [
+      "Node.js",
+      "Express.js",
+      "RESTful API Integration",
+      "Firebase",
+      "Supabase",
+      "Database Modeling",
+      "IndexedDB / Client Storage",
+      "Authentication & Security Basics"
+    ],
+    uiux: [
+      "Figma",
+      "Wireframing & Flowcharts",
+      "Interactive Prototyping",
+      "Design Systems & Tokens",
+      "User-Centered Design (UCD)",
+      "Usability Testing",
+      "Mobile-First Architecture",
+      "Micro-Interactions"
+    ],
+    tools: [
+      "Git & GitHub",
+      "Vercel Deployment",
+      "VS Code",
+      "npm / yarn",
+      "Postman",
+      "Browser DevTools",
+      "Canvas API",
+      "CI / CD Pipelines"
+    ],
+    softSkills: [
+      "Critical Problem Solving",
+      "User Empathy",
+      "Detail-Oriented Engineering",
+      "Agile Mindset",
+      "Cross-Functional Collaboration",
+      "Adaptive Learning"
+    ]
+  },
+  languages: [
+    { name: "Bahasa Indonesia", level: "Native / Penutur Asli" },
+    { name: "English", level: "Professional Working Proficiency" }
+  ],
+  education: [
+    {
+      period: "2022 — Sekarang",
+      degree: "Sarjana Ilmu Komputer / Teknik Informatika",
+      institution: "Universitas di Yogyakarta",
+      description: "Fokus studi pada Rekayasa Perangkat Lunak, Interaksi Manusia dan Komputer (IMK), Pemrograman Web, dan Algoritma Struktur Data."
+    }
+  ],
+  experiences: [
+    {
+      period: "2024 — Sekarang",
+      role: "Freelance Full-Stack Developer & UI/UX Designer",
+      company: "Independent Practice / Niswandi Studio",
+      location: "Remote / Yogyakarta",
+      description: "Merancang dan membangun aplikasi web interaktif, portal organisasi, dan platform digital kustom untuk berbagai klien, institusi, dan komunitas.",
+      highlights: [
+        "Membangun dan meluncurkan 4+ platform digital live production dengan arsitektur modern (React, Next.js, Tailwind CSS).",
+        "Mengembangkan sistem antarmuka responsif penuh yang dioptimasi untuk perangkat mobile, tablet, dan desktop.",
+        "Merancang sistem desain modular dari wireframe hingga prototipe interaktif di Figma sebelum diimplementasikan ke dalam kode."
+      ]
+    },
+    {
+      period: "2025 — 2026",
+      role: "Lead Frontend Engineer & UI Designer",
+      company: "Proyek Kolaboratif & Platform Budaya",
+      location: "Indonesia",
+      description: "Memimpin perancangan frontend dan user flow untuk inisiatif pelestarian budaya daerah dan platform portal berita.",
+      highlights: [
+        "Mengarsiteki struktur halaman dan optimasi gambar beresolusi tinggi tanpa degradasi performa.",
+        "Mengintegrasikan sistem Content Management System (CMS) untuk pengelolaan arsip berita dan dokumentasi sejarah."
+      ]
+    },
+    {
+      period: "2024 — 2025",
+      role: "Frontend Developer",
+      company: "Digital Innovations Lab",
+      location: "Yogyakarta",
+      description: "Mengembangkan komponen antarmuka web, integrasi API, dan menguji kompatibilitas lintas peramban.",
+      highlights: [
+        "Meningkatkan skor performa Lighthouse dan optimasi aksesibilitas web.",
+        "Mengimplementasikan micro-interactions yang halus dengan CSS modern."
+      ]
+    }
+  ],
+  featuredProjects: [
+    {
+      title: "Recaffe - Rekomendasi Cafe",
+      category: "Web Platform // Recommendation Engine",
+      role: "Fullstack Architect & UI/UX",
+      year: "2026",
+      liveUrl: "https://caferekomendasi.com",
+      description: "Platform web pencarian dan rekomendasi cafe transparan berbasis preferensi pengguna, dilengkapi sistem kurasi dan layout responsif modern."
+    },
+    {
+      title: "ISMI - Ikatan Sarjana Melayu Yogyakarta",
+      category: "Web Organization & CMS",
+      role: "Lead Developer & UI Designer",
+      year: "2026",
+      liveUrl: "https://ismy.org",
+      description: "Portal resmi organisasi cendekiawan Melayu di Yogyakarta yang mengelola berita, agenda, dan pangkalan data mahasiswa secara terpadu."
+    },
+    {
+      title: "Mengenal Budaya Mahakam Ulu",
+      category: "Cultural Archiving & Tourism Web",
+      role: "Lead Frontend Developer",
+      year: "2026",
+      liveUrl: "https://mahakamulu.go.id",
+      description: "Inisiatif digital pelestarian dan edukasi budaya Dayak Mahakam Ulu (Kalimantan Timur) dengan fokus pada ritual sakral Topeng Hudoq."
+    },
+    {
+      title: "BKPM - Balai Kajian Melayu",
+      category: "News & Historical Archive Portal",
+      role: "Lead Web Developer",
+      year: "2026",
+      liveUrl: "https://bkpm-melayu.com",
+      description: "Platform digital terintegrasi untuk publikasi riset, berita berkala, dan dokumentasi tamadun Melayu dengan navigasi terstruktur."
+    }
+  ]
+};
+
+

@@ -13,6 +13,7 @@ import { AboutPage } from './pages/AboutPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { ExperiencePage } from './pages/ExperiencePage';
 import { ContactPage } from './pages/ContactPage';
+import { CvPage } from './pages/CvPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { AdminPage } from './pages/AdminPage';
 
@@ -55,6 +56,8 @@ export const App: React.FC = () => {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/experience" element={<ExperiencePage />} />
+            <Route path="/cv" element={<CvPage />} />
+            <Route path="/resume" element={<CvPage />} />
             <Route path="/contact" element={<ContactPage />} />
             {/* Hidden Secret Admin Route - No public links */}
             <Route path="/admin" element={<AdminPage />} />

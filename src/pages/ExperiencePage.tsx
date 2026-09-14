@@ -66,13 +66,22 @@ export const ExperiencePage: React.FC = () => {
             </p>
           </div>
 
-          <Link
-            to="/contact"
-            className="inline-flex items-center space-x-2 px-6 py-3 rounded-full bg-lime text-black font-bold text-sm hover:bg-lime-hover shadow-[0_0_20px_rgba(198,242,33,0.3)] transition-all shrink-0"
-          >
-            <span>Let's Talk</span>
-            <ArrowUpRight className="w-4 h-4" />
-          </Link>
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <Link
+              to="/cv"
+              className="inline-flex items-center space-x-2 px-6 py-3 rounded-full bg-lime text-black font-bold text-sm hover:bg-lime-hover shadow-[0_0_20px_rgba(198,242,33,0.3)] transition-all"
+            >
+              <span>View Full CV</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center space-x-2 px-5 py-3 rounded-full bg-white/5 border border-white/10 hover:border-lime/40 text-gray-300 hover:text-lime text-sm font-semibold transition-all"
+            >
+              <span>Let's Talk</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>
