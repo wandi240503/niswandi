@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Lock, Plus, Trash2, Edit3, Globe, ArrowUpRight, Check, X, LogOut, RefreshCw, Upload, Image as ImageIcon, FileText } from 'lucide-react';
+import { Lock, Plus, Trash2, Edit3, Globe, ArrowUpRight, Check, X, LogOut, Upload, Image as ImageIcon, FileText } from 'lucide-react';
 import { Project } from '../types/portfolio';
-import { getStoredProjects, addOrUpdateProject, deleteStoredProject, resetStoredProjects } from '../utils/projectStorage';
+import { getStoredProjects, addOrUpdateProject, deleteStoredProject } from '../utils/projectStorage';
 import { saveCvDocument, getCvDocument, deleteCvDocument } from '../utils/imageDb';
 
 export const AdminPage: React.FC = () => {
@@ -103,14 +103,6 @@ export const AdminPage: React.FC = () => {
       const updated = deleteStoredProject(id);
       setProjects(updated);
       showToast(`${projTitle} berhasil dihapus.`);
-    }
-  };
-
-  const handleResetDefaults = () => {
-    if (window.confirm('Kembalikan semua proyek ke 4 proyek utama bawaan?')) {
-      const defaults = resetStoredProjects();
-      setProjects(defaults);
-      showToast('Daftar proyek dikembalikan ke default.');
     }
   };
 
@@ -484,16 +476,6 @@ export const AdminPage: React.FC = () => {
           )}
         </div>
 
-        {/* Reset Button Footer */}
-        <div className="pt-8 border-t border-white/10 flex justify-end">
-          <button
-            onClick={handleResetDefaults}
-            className="inline-flex items-center space-x-1.5 text-xs font-mono text-gray-500 hover:text-gray-300 transition-colors"
-          >
-            <RefreshCw className="w-3 h-3" />
-            <span>Reset to default showcase projects (4 proyek asli)</span>
-          </button>
-        </div>
       </div>
 
       {/* 3. Add / Edit Project Modal */}
